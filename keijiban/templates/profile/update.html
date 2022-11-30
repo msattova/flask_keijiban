@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class="container max-w-full mx-auto py-8 px-8">
+  <div class="inline-flex flex-col mt-6 items-center">
+    <h1 class="text-xl font-bold text-gray-800">
+      {% block title %}
+        {{ g.user['username'] }}のプロフィールを編集する
+      {% endblock %}
+    </h1>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-center w-full">
+  <form class="w-10/12 bg-gray-50 mx-2" method="post">
+    <div class="flex flex-col items-start p-2 bg-gray-50 rounded-lg">
+      <label class="text-sm py-2 px-4" for="profile">プロフィール</label>
+      <textarea name="profile" id="profile" rows="4"
+        class="block mx-4 p-2.5 w-10/12 text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+        required>{{ request.form['profile'] or profile['profile_text'] | safe}}</textarea>
+      <div class="px-4 pt-8 pb-2">
+        <label for="nickname" class="py-2 px-1 text-sm text-gray-600">ニックネーム</label>
+        <input name="nickname" id="nickname" placeholder="" type="text"
+            value="{{ profile['nickname'] }}"
+            class="text-md block px-3 py-2  rounded-lg w-full
+                        bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none">
+      </div>
+      <div class="px-4 pt-8 pb-2">
+        {% if profile['censor_check']  %}
+          <input type="checkbox" name="censor_check" id="censor_check" checked>
+        {% else %}
+          <input type="checkbox" name="censor_check" id="censor_check">
+        {% endif %}
+        <label for="censor_check">不適切な言葉を変換して表示する</label>
+      </div>
+      <div class="px-2 w-full flex justify-end">
+        <button type="submit"
+          class="w-3/12 min-w-fit inline-flex items-center justify-center m-2 font-semibold p-2 text-white bg-blue-600 rounded-lg cursor-pointer hover:bg-blue-800">
+          <span>保存する</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

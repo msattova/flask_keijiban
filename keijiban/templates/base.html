@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{% block title%}{% endblock %} - Tsubuyaitaaaa</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='dist/tailwind.css') }}">
+<style>
+  textarea {
+    resize: none;
+  }
+  code {
+    background-color: whitesmoke;
+    padding: 2px;
+  }
+</style>
+<!-----
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        screens: {
+          lg: '540px',
+        }
+      }
+    }
+  }
+</script>
+------>
+
+{% block script %}{% endblock %}
+
+<script src="https://kit.fontawesome.com/d6577bf8fa.js" crossorigin="anonymous"></script>
+<style>
+  html,
+  body {
+    font-family: sans-serif;
+  }
+  @media (min-width: 1024px) {
+    .top-navbar {
+      display: inline-flex !important;
+    }
+  }
+</style>
+
+<nav class="flex items-center bg-gray-800 p-3 flex-wrap">
+  <a href="{{ url_for('posts.index') }}" class="p-2 mr-4 inline-flex items-center">
+    <span class="text-xl text-white font-bold uppercase tracking-wide">Tsubuyaitaaaa</span>
+  </a>
+  <button
+    class="text-white inline-flex p-3 hover:bg-gray-900 rounded lg:hidden ml-auto hover:text-white outline-none nav-toggler"
+    data-target="#navigation">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="hidden top-navbar w-full lg:inline-flex lg:flex-grow lg:w-auto" id="navigation">
+    <div
+      class="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto">
+    {% if g.user %}
+      <a href="{{ url_for('profile.profile', username=g.user['username']) }}"
+        class="inline-flex flex-row space-x-2 lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center lg:justify-center hover:bg-gray-900 hover:text-white">
+        <span class="fa-solid fa-user"></span>
+        <span>@{{ g.user['username'] }}</span>
+      </a>
+      <a href="{{ url_for('auth.logout') }}"
+        class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
+        ログアウト
+      </a>
+    {% else %}
+      <a href="{{ url_for('auth.register') }}"
+        class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
+        登録
+      </a>
+      <a href="{{ url_for('auth.login') }}"
+        class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
+        ログイン
+      </a>
+    {% endif %}
+    </div>
+  </div>
+</nav>
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function () {
+    $(".nav-toggler").each(function (_, navToggler) {
+      var target = $(navToggler).data("target");
+      $(navToggler).on("click", function () {
+        $(target).animate({
+          height: "toggle"
+        });
+      });
+    });
+  });
+</script>
+
+<section>
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script src="https://kit.fontawesome.com/d6577bf8fa.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block header %}
+<div class="max-w-2xl mx-auto w-10/12">
+  <h1 class="sr-only">
+    {% block title %}投稿の一覧{% endblock %}
+  </h1>
+  {% if g.user %}
+  <form method="post">
+    <label for="body" class="sr-only">投稿する</label>
+    <div class="flex items-center py-2 px-4 bg-gray-50 rounded-lg">
+      <textarea name="body" id="body" rows="4"
+        class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+        placeholder="なにか書き込む" required>{{ request.form['body'] }}</textarea>
+      <button type="submit"
+        class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100">
+        <span class="fa-solid fa-paper-plane"></span>
+      </button>
+    </div>
+  </form>
+  <div>
+    <details class="text-sm my-2 p-2 text-gray-700 border">
+      <summary>
+        <span class="fa-solid fa-circle-info"></span>
+        <span>利用可能な装飾</span>
+      </summary>
+      <div>
+        <p>
+          一部のMarkdown記法を用いてテキストの装飾ができます。
+        </p>
+        <ul>
+          <li>
+            *sample* → <em>sample</em>
+          </li>
+          <li>
+            **sample** → <strong>sample</strong>
+          </li>
+          <li>
+            `sample` → <code>sample</code>
+          </li>
+        </ul>
+      </div>
+
+    </details>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block content %}
+{% if posts %}
+{% for post in posts %}
+<article class='flex items-center justify-center py-3'>
+  <div class="rounded-xl border p-5 shadow-md w-10/12 max-w-2xl bg-white">
+    <div class="flex w-full items-center justify-between pb-3">
+      <div class="flex items-center space-x-3">
+        <div class="text-lg font-bold text-slate-700">
+          <a href="{{ url_for('profile.profile', username=post['username']) }}">
+            {{ post['nickname'] }}
+          </a>
+          <span class="text-sm font-light">
+            @{{ post['username'] }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 mb-6">
+      <div class="text-base text-neutral-600">
+        {{ post['body'] |to_br }}
+      </div>
+    </div>
+    <hr>
+    <div class="flex items-center justify-between text-xs ">
+      <div class="inline-flex flex-row">
+        {% if g.user['id'] == post['author_id'] %}
+        <a href="{{ url_for('posts.update', id=post['id']) }}" class="action space-x-1 text-blue-400">
+          <span class="fa-solid fa-pen-nib"></span>
+          <span class="">編集</span>
+        </a>
+        {% endif %}
+      </div>
+      <div class="flex items-center space-x-2 text-neutral-500">
+        <i class="fa-regular fa-clock"></i>
+        <time>{{ post['created_at'].strftime('%Y-%m-%d %H:%M:%S') }}</time>
+      </div>
+    </div>
+  </div>
+</article>
+{% endfor %}
+{% else %}
+<div class="py-12 flex justify-center w-full text-gray-400 font-bold text-lg">
+  <p class="items-center">呟きが存在しません。</p>
+</div>
+{% endif %}
+{% endblock %}
