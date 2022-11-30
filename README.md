@@ -23,3 +23,9 @@ pip install -r requirements.txt
 * 投稿、プロフィール文章にはmarkdown記法によるテキストの装飾が可能（ただし、現状では``` *em*, **strong**, `code` ```にのみ対応）
 * ユーザ登録時にニックネームの欄を空にするとユーザー名がニックネームとして登録される。
 * レイアウトはtailwindcssというcssのフレームワークを利用して作成
+
+## 備考
+
+大部分はFlaskの[チュートリアル](https://msiz07-flask-docs-ja.readthedocs.io/ja/latest/tutorial/index.html)を参考に作成
+
+不適切な言葉とその言い換え語のリストについては http://monoroch.net/kinshi/ で公開されている[放送禁止用語リスト](http://monoroch.net/kinshi/kinshi.csv)を基にしている。
