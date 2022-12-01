@@ -13,6 +13,13 @@ pip install -r requirements.txt
 
 ## 実行の仕方
 
+### 準備
+
+1. .envファイルを用意するなどして環境変数FLASK_APPに'keijiban'を設定。
+2. requirements.txt記載の必要なライブラリを導入する
+
+### 実行
+
 1. flask_keijibanディレクトリ下で`flask --app keijiban init-db`を実行。これによってデータベースを初期化する。（データベースはschema.sqlに記載されたコマンドを基に作成される）
 2. `flask run`コマンドを実行。これによって開発モードでwebアプリケーションが起動する。実行に成功すれば"Running on http://127.0.0.1:5000 "というようなメッセージが出力されるので、このメッセージで示されるアドレスにwebブラウザでアクセスすると動作確認ができる。
 
